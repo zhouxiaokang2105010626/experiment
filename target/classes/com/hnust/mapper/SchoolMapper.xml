@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hnust.mapper.SchoolMapper">
+    <select id="findSchoolWithCourse" parameterType="int"
+            resultMap="SchoolWithCourseResult">
+        SELECT s.*,c.id as cid,c.name,c.hours,c.sid
+        from   s_student c,s_school s
+        WHERE c.sid=s.id
+        and s.id=#{id};
+    </select>
+    <resultMap type="com.hnust.pojo.School" id="SchoolWithCourseResult">
+        <id property="id" column="id"/>
+        <result property="schoolName" column="schoolName"/>
+        <collection property="course" ofType="com.hnust.pojo.Course">
+            <id property="id" column="cid"/>
+            <result property="name" column="name"/>
+            <result property="hours" column="hours"/>
+            <result property="sid" column="sid"/>
+        </collection>
+    </resultMap>
+
+
+</mapper>
