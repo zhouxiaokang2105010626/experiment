@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hnust.dao.CourseMapper">
+
+    <!--<insert id="addCourse" parameterType="Courses">-->
+        <!--insert into mybatis.ssm(name, hours, school) VALUES (#{name},#{hours},#{school});-->
+    <!--</insert>-->
+    <insert id="register" parameterType="com.hnust.pojo.User">
+        insert into user(email, password)
+        values (#{email},#{password});
+    </insert>
+
+
+    <select id="login" resultType="com.hnust.pojo.User">
+        select * from user WHERE email=#{email} and password=#{password}
+   </select>
+
+
+
+    <insert id="addCourse" parameterType="Courses">
+        INSERT INTO mybatis.ssm1(name, hours,img, school)
+        SELECT #{name}, #{hours}, #{img}, #{school}
+        FROM dual
+        WHERE NOT EXISTS (SELECT 1 FROM mybatis.ssm1 WHERE name = #{name})
+    </insert>
+
+
+    <!--删除-->
+    <delete id="deleteCourseById" parameterType="int">
+        delete from mybatis.ssm1 where id=#{id}
+    </delete>
+
+
+     <update id="updateCourse" parameterType="Courses">
+       update mybatis.ssm1 set name=#{name},hours=#{hours},img=#{img},school=#{school} where id=#{id}
+    </update>
+
+    <!--<update id="updateCourse" parameterType="Courses">-->
+        <!--UPDATE mybatis.ssm1 SET name =#{name}, hours=#{hours}, img=#{img}, school=#{school}-->
+        <!--WHERE id=#{id} AND NOT EXISTS (-->
+        <!--SELECT 1 FROM mybatis.ssm1 WHERE name=#{name} AND id!=#{id}-->
+        <!--)-->
+    <!--</update>-->
+
+
+    <!-- 按id查找  -->
+    <select id="queryCourseById" resultType="Courses" parameterType="int">
+        select * from ssm1 where id=#{id}
+    </select>
+
+    <!-- 全部查找  -->
+    <select id="queryAllCourse" resultType="Courses" >
+        select * from ssm1
+    </select>
+
+    <!-- 按课程查找  -->
+    <select id="queryCourseName" resultType="Courses" >
+        select * from ssm1 where name=#{name}
+    </select>
+
+
+</mapper>
